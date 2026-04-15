@@ -188,8 +188,24 @@ def load_to_warehouse(clean_df: pd.DataFrame) -> dict[str, int]:
         con.execute(
             """
             CREATE OR REPLACE TABLE dim_customer AS
-            SELECT DISTINCT customer_id, city
-            FROM fact_sales
+            SELECT
+                customer_id,
+                city,
+                order_date AS last_order_date,
+                updated_at AS last_updated_at
+            FROM (
+                SELECT
+                    customer_id,
+                    city,
+                    order_date,
+                    updated_at,
+                    ROW_NUMBER() OVER (
+                        PARTITION BY customer_id
+                        ORDER BY updated_at DESC, order_date DESC
+                    ) AS rn
+                FROM fact_sales
+            ) ranked
+            WHERE rn = 1
             """
         )
         con.execute(
@@ -212,6 +228,9 @@ def load_to_warehouse(clean_df: pd.DataFrame) -> dict[str, int]:
             SELECT
                 order_date,
                 COUNT(*) AS total_orders,
+                COUNT(*) FILTER (WHERE status = 'Completed') AS completed_orders,
+                COUNT(*) FILTER (WHERE status = 'Refunded') AS refunded_orders,
+                COUNT(*) FILTER (WHERE status = 'Cancelled') AS cancelled_orders,
                 SUM(CASE WHEN status = 'Completed' THEN order_amount ELSE 0 END) AS gross_revenue,
                 SUM(CASE WHEN status = 'Refunded' THEN order_amount ELSE 0 END) AS refunded_amount,
                 SUM(
@@ -235,6 +254,7 @@ def load_to_warehouse(clean_df: pd.DataFrame) -> dict[str, int]:
                 product_name,
                 category,
                 COUNT(*) AS total_orders,
+                COUNT(*) FILTER (WHERE status = 'Completed') AS completed_orders,
                 SUM(CASE WHEN status = 'Completed' THEN order_amount ELSE 0 END) AS revenue
             FROM fact_sales
             GROUP BY 1, 2, 3
@@ -249,6 +269,7 @@ def load_to_warehouse(clean_df: pd.DataFrame) -> dict[str, int]:
             SELECT
                 city,
                 COUNT(*) AS total_orders,
+                COUNT(*) FILTER (WHERE status = 'Completed') AS completed_orders,
                 SUM(CASE WHEN status = 'Completed' THEN order_amount ELSE 0 END) AS gross_revenue,
                 AVG(CASE WHEN status = 'Completed' THEN order_amount END) AS avg_order_value
             FROM fact_sales

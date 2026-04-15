@@ -1,4 +1,4 @@
-# Retail Sales ETL Pipeline (Basic to Intermediate)
+# Retail Sales ETL Pipeline
 
 This project demonstrates a complete ETL pipeline using Python, SQL, and DuckDB.
 It is designed for internship-level data engineering portfolios and can be explained easily in interviews.
@@ -13,7 +13,7 @@ It is designed for internship-level data engineering portfolios and can be expla
 
 - Synthetic raw data generator (`src/generate_data.py`)
 - Data cleaning and transformation pipeline (`src/etl_pipeline.py`)
-- Incremental upsert logic by `order_id`
+- Idempotent upsert logic by `order_id` (safe to rerun)
 - Quality checks (nulls, duplicates, invalid values, future dates)
 - Star-schema style dimensions and analytics marts
 - Output artifacts for reports and dashboards
@@ -67,6 +67,12 @@ python src/generate_data.py --rows 500000 --days 365
 python src/etl_pipeline.py
 ```
 
+## Data Loading Behavior
+
+- The pipeline reads all raw files from `data/raw/` on each run.
+- Upsert logic prevents duplicate business keys by replacing rows with matching `order_id`.
+- This gives rerun safety now, and can be extended later with watermark/file-tracking for true file-level incremental ingestion.
+
 ## Outputs
 
 After execution, you will get:
@@ -78,6 +84,8 @@ After execution, you will get:
   - `data/processed/mart_top_products.csv`
   - `data/processed/mart_city_performance.csv`
 - Quality report: `docs/quality_report.json`
+
+These output files are generated locally and are intentionally gitignored to keep the repository lightweight.
 
 ## SQL Assets Created in Warehouse
 
@@ -101,3 +109,18 @@ After execution, you will get:
 - How dirty raw data was handled safely.
 - Why warehouse marts were separated from raw and clean layers.
 - What quality checks were added and why they matter in production.
+
+## Example Quality Snapshot
+
+```json
+{
+  "raw_rows": 71400,
+  "clean_rows": 49646,
+  "quality_checks": {
+    "duplicate_order_id": 0,
+    "null_order_id": 0,
+    "non_positive_amount": 0,
+    "passed": true
+  }
+}
+```
