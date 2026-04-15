@@ -1,4 +1,4 @@
-# Retail Sales ETL Pipeline (Basic to Intermediate)
+# Retail Sales ETL Pipeline 
 
 This project demonstrates a complete ETL pipeline using Python, SQL, and DuckDB.
 It is designed for internship-level data engineering portfolios and can be explained easily in interviews.
