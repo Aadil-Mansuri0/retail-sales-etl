@@ -1,0 +1,22 @@
+{
+  "run_timestamp_utc": "2026-04-15T13:59:19+00:00",
+  "raw_rows": 71400,
+  "clean_rows": 49646,
+  "quality_checks": {
+    "rows_after_transform": 49646,
+    "null_order_id": 0,
+    "duplicate_order_id": 0,
+    "non_positive_amount": 0,
+    "future_order_date": 0,
+    "invalid_discount": 0,
+    "passed": true
+  },
+  "warehouse_counts": {
+    "fact_sales": 49646,
+    "dim_product": 10,
+    "dim_customer": 37123,
+    "mart_daily_revenue": 120,
+    "mart_top_products": 10,
+    "mart_city_performance": 11
+  }
+}
