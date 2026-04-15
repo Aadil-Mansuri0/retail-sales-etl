@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.venv/
+warehouse/*.duckdb
+data/raw/*.csv
+data/processed/*.csv
+docs/quality_report.json
