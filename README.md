@@ -89,15 +89,4 @@ After execution, you will get:
 - `mart_top_products`
 - `mart_city_performance`
 
-## Resume Bullets (Copy-Ready)
 
-- Built an end-to-end retail ETL pipeline using Python and DuckDB to ingest, clean, and model sales data from raw CSV files.
-- Implemented incremental upsert logic and automated data quality checks (duplicates, nulls, invalid values), improving reliability of analytics outputs.
-- Designed fact and dimension tables plus business marts for daily revenue, top products, and city-level performance reporting.
-
-## Interview Talking Points
-
-- Why upsert by `order_id` was used for idempotent reruns.
-- How dirty raw data was handled safely.
-- Why warehouse marts were separated from raw and clean layers.
-- What quality checks were added and why they matter in production.
