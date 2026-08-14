@@ -21,10 +21,13 @@ jobs:
           cache-dependency-path: requirements.txt
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r requirements.txt pytest
 
       - name: Compile pipeline modules
-        run: python -m compileall -q src
+        run: python -m compileall -q src tests
 
       - name: Validate imports
         run: python -c "import pandas, numpy, duckdb; print('ETL dependencies imported successfully')"
+
+      - name: Run tests
+        run: pytest -q
