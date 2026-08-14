@@ -1,48 +1,68 @@
-# Retail Sales ETL Pipeline
+# 📊 Retail Sales ETL Pipeline
 
-End-to-end ETL pipeline using Python, Pandas, and DuckDB to process retail sales data from raw CSV files into analytics-ready marts.
+[![CI](https://github.com/Aadil-Mansuri0/retail-sales-etl/actions/workflows/ci.yml/badge.svg)](https://github.com/Aadil-Mansuri0/retail-sales-etl/actions/workflows/ci.yml)
 
-## What This Project Does
+> End-to-end retail data engineering pipeline that transforms raw CSV orders into a DuckDB warehouse, analytics marts and a machine-readable data-quality report.
+
+## 🚀 Project Overview
+
+```mermaid
+flowchart LR
+    RAW[Raw CSV Orders] --> CLEAN[Cleaning & Standardization]
+    CLEAN --> DEDUP[Deduplication by order_id]
+    DEDUP --> WH[(DuckDB Warehouse)]
+    WH --> MART[Analytics Marts]
+    WH --> Q[Quality Report]
+```
+
+## ✨ Engineering Highlights
 
 - Extracts raw retail order files from `data/raw/`
-- Cleans and standardizes data types and missing values
-- Deduplicates records by `order_id` using latest `updated_at`
-- Loads curated data into DuckDB warehouse tables
-- Publishes marts for daily revenue, top products, and city performance
-- Writes a pipeline quality report for validation checks
+- Standardizes data types and missing values
+- Deduplicates records using the latest `updated_at`
+- Uses idempotent upsert behavior for reruns
+- Builds fact and dimension tables
+- Publishes reporting marts for revenue, products and cities
+- Produces a pipeline quality report
+- Includes automated GitHub Actions validation
 
-## Tech Stack
+## 🛠️ Tech Stack
 
-- Python
-- Pandas
-- NumPy
-- DuckDB
-- SQL
+Python · Pandas · NumPy · DuckDB · SQL · GitHub Actions
 
-## Pipeline Flow
+## 🗂️ Warehouse Model
 
-Raw CSV -> Transformations -> Fact Table -> Dimension Tables -> Analytics Marts -> Quality Report
+- `fact_sales`
+- `dim_product`
+- `dim_customer`
+- `dim_date`
 
-## Repository Structure
+### Analytics marts
+
+- `mart_daily_revenue`
+- `mart_top_products`
+- `mart_city_performance`
+
+## 📁 Repository Structure
 
 ```text
 retail-sales-etl/
-  src/
-    generate_data.py
-    etl_pipeline.py
-  data/
-    raw/
-    processed/
-  warehouse/
-  docs/
-  requirements.txt
-  README.md
+├── src/
+│   ├── generate_data.py
+│   └── etl_pipeline.py
+├── data/
+│   ├── raw/
+│   └── processed/
+├── warehouse/
+├── docs/
+├── .github/workflows/ci.yml
+├── requirements.txt
+└── README.md
 ```
 
-## How To Run
+## ▶️ Run the Pipeline
 
 ```bash
-cd retail-sales-etl
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -50,40 +70,22 @@ python src/generate_data.py --rows 50000 --days 120
 python src/etl_pipeline.py
 ```
 
-## Data Loading Behavior
+Generated artifacts include cleaned data, analytics marts, a quality report and the local DuckDB warehouse. These generated files are intentionally kept out of Git when configured as local artifacts.
 
-- The pipeline reads all files in `data/raw/` on each run.
-- Upsert logic replaces existing warehouse rows with the same `order_id`.
-- This ensures rerun safety and prevents duplicate business keys.
+## 🔁 Rerun Safety
 
-## Warehouse Tables
+The pipeline reads raw files on each run and replaces warehouse rows for the same business key (`order_id`). This makes repeated executions safer and prevents duplicate business keys.
 
-- `fact_sales`
-- `dim_product`
-- `dim_customer`
-- `dim_date`
+## 🧪 CI Validation
 
-## Analytics Marts
+GitHub Actions runs on pushes and pull requests to `main` and validates that the Python pipeline modules compile and the core ETL dependencies import successfully.
 
-- `mart_daily_revenue`
-- `mart_top_products`
-- `mart_city_performance`
+## 📈 Portfolio Value
 
-## Output Artifacts
+This project demonstrates practical data-engineering concepts rather than a notebook-only workflow: ingestion, transformation, warehouse modelling, idempotency and data-quality validation.
 
-Generated locally after pipeline execution:
+## 👨‍💻 Author
 
-- `data/processed/retail_orders_clean.csv`
-- `data/processed/mart_daily_revenue.csv`
-- `data/processed/mart_top_products.csv`
-- `data/processed/mart_city_performance.csv`
-- `docs/quality_report.json`
-- `warehouse/retail_warehouse.duckdb`
+**Aadil Mansuri** — CSE (AI) student focused on ML, Data Engineering and backend systems.
 
-These generated artifacts are intentionally gitignored to keep the repository lightweight.
-
-## Resume Highlights
-
-- Built an end-to-end ETL pipeline for retail analytics with Python and DuckDB.
-- Implemented idempotent upsert processing and automated data quality checks.
-- Designed fact, dimension, and mart tables for reporting use cases.
+[GitHub](https://github.com/Aadil-Mansuri0)
