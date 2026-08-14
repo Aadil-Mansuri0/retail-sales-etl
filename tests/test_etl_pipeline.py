@@ -8,8 +8,8 @@ def test_transform_deduplicates_and_calculates_amount() -> None:
         [
             {
                 "order_id": "O1",
-                "order_date": "2026-01-01",
-                "updated_at": "2026-01-01T10:00:00Z",
+                "order_date": "2025-01-01",
+                "updated_at": "2025-01-01T10:00:00Z",
                 "customer_id": "C1",
                 "product_id": "P1",
                 "product_name": "Widget",
@@ -23,8 +23,8 @@ def test_transform_deduplicates_and_calculates_amount() -> None:
             },
             {
                 "order_id": "O1",
-                "order_date": "2026-01-01",
-                "updated_at": "2026-01-01T11:00:00Z",
+                "order_date": "2025-01-01",
+                "updated_at": "2025-01-01T11:00:00Z",
                 "customer_id": "C1",
                 "product_id": "P1",
                 "product_name": "Widget",

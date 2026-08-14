@@ -61,6 +61,8 @@ def transform_data(raw_df: pd.DataFrame) -> pd.DataFrame:
     df["city"] = df["city"].fillna("Unknown")
     df["payment_method"] = df["payment_method"].fillna("Unknown")
     df["status"] = df["status"].fillna("Completed")
+    if "source_file" not in df.columns:
+        df["source_file"] = "in_memory"
 
     df = df.dropna(subset=["order_id", "product_id", "order_date", "quantity", "unit_price"])
     df = df[(df["quantity"] > 0) & (df["unit_price"] > 0)]

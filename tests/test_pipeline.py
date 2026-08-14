@@ -8,8 +8,8 @@ def test_transform_deduplicates_and_calculates_order_amount() -> None:
         [
             {
                 "order_id": "A-1",
-                "order_date": "2026-01-01",
-                "updated_at": "2026-01-01T10:00:00",
+                "order_date": "2025-01-01",
+                "updated_at": "2025-01-01T10:00:00",
                 "customer_id": "C-1",
                 "product_id": "P-1",
                 "product_name": "Notebook",
@@ -23,8 +23,8 @@ def test_transform_deduplicates_and_calculates_order_amount() -> None:
             },
             {
                 "order_id": "A-1",
-                "order_date": "2026-01-01",
-                "updated_at": "2026-01-01T11:00:00",
+                "order_date": "2025-01-01",
+                "updated_at": "2025-01-01T11:00:00",
                 "customer_id": "C-1",
                 "product_id": "P-1",
                 "product_name": "Notebook",
