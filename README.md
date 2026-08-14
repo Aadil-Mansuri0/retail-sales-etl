@@ -24,11 +24,11 @@ flowchart LR
 - Builds fact and dimension tables
 - Publishes reporting marts for revenue, products and cities
 - Produces a pipeline quality report
-- Includes automated GitHub Actions validation
+- Includes automated GitHub Actions validation and pytest tests
 
 ## 🛠️ Tech Stack
 
-Python · Pandas · NumPy · DuckDB · SQL · GitHub Actions
+Python · Pandas · NumPy · DuckDB · SQL · Pytest · GitHub Actions
 
 ## 🗂️ Warehouse Model
 
@@ -50,6 +50,8 @@ retail-sales-etl/
 ├── src/
 │   ├── generate_data.py
 │   └── etl_pipeline.py
+├── tests/
+│   └── test_pipeline.py
 ├── data/
 │   ├── raw/
 │   └── processed/
@@ -76,9 +78,14 @@ Generated artifacts include cleaned data, analytics marts, a quality report and 
 
 The pipeline reads raw files on each run and replaces warehouse rows for the same business key (`order_id`). This makes repeated executions safer and prevents duplicate business keys.
 
-## 🧪 CI Validation
+## 🧪 Quality & CI
 
-GitHub Actions runs on pushes and pull requests to `main` and validates that the Python pipeline modules compile and the core ETL dependencies import successfully.
+GitHub Actions runs on pushes and pull requests to `main` and:
+
+1. Installs project dependencies.
+2. Compiles source and test modules.
+3. Validates core imports.
+4. Runs the automated transformation and data-quality tests with `pytest`.
 
 ## 📈 Portfolio Value
 
