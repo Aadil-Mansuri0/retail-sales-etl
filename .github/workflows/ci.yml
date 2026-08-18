@@ -30,4 +30,4 @@ jobs:
         run: python -c "import pandas, numpy, duckdb; print('ETL dependencies imported successfully')"
 
       - name: Run tests
-        run: pytest -q
+        run: python -m pytest -q
